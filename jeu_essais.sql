@@ -80,34 +80,24 @@ execute insert_in_view_vol('1', '2', '10', '05', '16', '00', '14', '10', '10');
 execute insert_in_view_vol('1', '2', '10', '05', '16', '00', '14', '10', '10');
 
 
-
-execute insert_in_view_vol('1', '2', '10', '05', '16', '00', '14', '10', '10');
-execute insert_in_view_vol( '1', '2', '10', '05', '16', '00', '14', '10', '10');
-execute insert_in_view_vol('1', '2', '10', '05', '16', '00', '14', '10', '10');
+--CREATION D'une NOUVELL OCCURENCE DE VOL AVEC CHEVAUCHEMENT PAS DE PASSERELLE
+execute insert_in_view_vol('2', '1', '12', '52', '16', '00', '14', '10', '10');
+execute insert_in_view_vol('2', '1', '12', '49', '16', '00', '14', '10', '10');
+execute insert_in_view_vol('2', '1', '13', '30', '19', '00', '14', '10', '10');
 
 --Aucune porte/parking trouver pour ce vol
 execute insert_in_view_vol( '5', '6', '10', '05', '16', '00', '14', '10', '10');
-execute insert_in_view_vol('5', '6', '10', '05', '16', '00', '14', '10', '10');
-
-
 execute insert_in_view_vol('7', '6', '10', '05', '16', '00', '14', '10', '10');
 execute insert_in_view_vol( '8', '9', '10', '05', '16', '00', '14', '10', '10');
 
---SET SERVEROUTPUT ON;
--- TEST Chevauchement des horaires pour deux occurences bidons
-execute insert_in_view_vol('1', '2', '12', '52', '16', '00', '14', '10', '10');
-execute insert_in_view_vol('1', '2', '12', '45', '16', '00', '14', '10', '10');
-execute insert_in_view_vol( '1', '2', '10', '05', '16', '00', '14', '10', '10');
 
---CREATION D''OCCURENCE DE VOL
-execute insert_in_view_vol('2', '1', '12', '52', '16', '00', '14', '10', '10');
-execute insert_in_view_vol('1', '2', '12', '52', '16', '00', '14', '10', '10');
+
+
 --p_insert_in_view_occ_vol (pVOLNUM ,pAERONUM_DEROUTER ,pOCCDATE , pNB_OCC_VOL /*NB occurence de vol q''on souhaire créeer*/)
 execute p_insert_in_view_occ_vol(24,1,to_date('14/10/17','DD/MM/RR'),1);
-execute p_insert_in_view_occ_vol(81,1,to_date('14/10/17','DD/MM/RR'),1);
+execute p_insert_in_view_occ_vol(25,1,to_date('14/10/17','DD/MM/RR'),1);
 
 execute p_insert_in_view_occ_vol(24,1,to_date('14/10/17','DD/MM/RR'),1);
-execute insert_in_view_vol('5', '8', '12', '52', '16', '00', '14', '10', '10');
 
 --reintialisation des données
 execute reinit_datas;

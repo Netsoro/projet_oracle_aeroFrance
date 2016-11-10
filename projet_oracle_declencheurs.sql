@@ -74,6 +74,7 @@ BEGIN
       where BILLNUM=:NEW.BILLNUM ; 
     DBMS_OUTPUT.PUT_LINE('(BILLNUM,BILLETAT) ==>> ( ' || :NEW.BILLNUM || ', ' || 'encours)' );
   ELSIF :NEW.COUPETAT  = 'arrivé' THEN 
+    DBMS_OUTPUT.PUT_LINE('(COUPNUM,COUPETAT) ==>> ( ' || :NEW.COUPNUM || ', ' || 'arrivé)' );
     IF f_is_all_coupons_arrive(:NEW.BILLNUM) = 1 THEN
       UPDATE BILLET
         SET BILLETAT = 'terminé'
@@ -100,10 +101,13 @@ BEGIN
        where OCCNUM=:NEW.OCCNUM ; 
         
     IF :NEW.OCCETAT ='décollé' THEN
+      DBMS_OUTPUT.PUT_LINE('(OCCNUM,OCCETAT) ==>> ( ' || :NEW.OCCNUM || ', ' || 'décollé)' );
       p_not_saved_coupons_to_cancel(:NEW.OCCNUM);
     ELSIF :NEW.OCCETAT  = 'arrivé' THEN 
+      DBMS_OUTPUT.PUT_LINE('(OCCNUM,OCCETAT) ==>> ( ' || :NEW.OCCNUM || ', ' || 'arrivé)' );
       p_do_coupons_to_arriver(:NEW.OCCNUM);
     ELSIF :NEW.OCCETAT  = 'derouté' THEN
+      DBMS_OUTPUT.PUT_LINE('(OCCNUM,OCCETAT) ==>> ( ' || :NEW.OCCNUM || ', ' || 'derouté)' );
       p_do_coupons_to_arriver(:NEW.OCCNUM);
     END IF;
   END;
@@ -127,19 +131,21 @@ REFERENCING OLD AS OLS NEW AS NEW
 FOR EACH ROW
 DECLARE
   vOCCNUM OCCURENCE_VOL.OCCNUM%TYPE;
+  vVOLNUM VOL.VOLNUM%TYPE;
 BEGIN
   --création du vol
+  vVOLNUM :=:NEW.VOLNUM;
   INSERT INTO VOL (VOLNUM, AERONUM_DEPART, AERONUM_ARRIVEE, H_DEPART, M_DEPART, 
                   H_ARRIVEE, M_ARRIVEE, VOLNBPLACES, NBMINUTESAVANT, NBMINUTESAPRES)
-  VALUES (:NEW.VOLNUM, :NEW.AERONUM_DEPART, :NEW.AERONUM_ARRIVEE, :NEW.H_DEPART, 
+  VALUES (vVOLNUM, :NEW.AERONUM_DEPART, :NEW.AERONUM_ARRIVEE, :NEW.H_DEPART, 
           :NEW.M_DEPART, :NEW.H_ARRIVEE, :NEW.M_ARRIVEE, :NEW.VOLNBPLACES, 
           :NEW.NBMINUTESAVANT, :NEW.NBMINUTESAPRES);
   --création d'une occ bidon et alloc d'uneporte é cette occ
-  vOCCNUM := Seq_occ_vol.nextval;
+  vOCCNUM := Seq_occ_vol.nextval;  
   INSERT INTO OCCURENCE_VOL(OCCNUM,VOLNUM,AERONUM,OCCDATE,OCCETAT) 
-  VALUES (vOCCNUM,:NEW.VOLNUM,:NEW.AERONUM_DEPART,to_date('1/1/00','DD/MM/YY'),'ouvert_reservation');
+  VALUES (vOCCNUM,vVOLNUM,:NEW.AERONUM_DEPART,to_date('1/1/00','DD/MM/YY'),'ouvert_reservation');
   p_affecte_porte_parking (vOCCNUM);
   
-  dbms_output.put_line('OCCNUM , VOLNUM ) ==>>  ('|| vOCCNUM || ',' ||:NEW.VOLNUM || ')');
+  dbms_output.put_line('(OCCNUM , VOLNUM ) ==>>  ('|| vOCCNUM || ',' ||vVOLNUM || ')');
   
 END;
