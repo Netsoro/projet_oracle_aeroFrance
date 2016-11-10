@@ -46,12 +46,18 @@ execute insertion_billet(1,150,to_date('16/09/16','DD/MM/RR'),'émis',1);
 
 --insertion_billet(pTRANUM ,pCLINUM ,pBILLDATEDEPART,pBILLETAT ,NBBILLET , NBBILLLET /*de billet qu'on veut inserer*/)
 execute insertion_billet(1,8,to_date('16/11/16','DD/MM/RR'),'émis',1);
-execute insertion_billet(1,9,to_date('16/11/16','DD/MM/RR'),'émis',1);
 execute insertion_billet(1,1,to_date('16/11/16','DD/MM/RR'),'émis',1);
 execute insertion_billet(1,2,to_date('16/11/16','DD/MM/RR'),'émis',1);
 execute insertion_billet(1,3,to_date('16/11/16','DD/MM/RR'),'émis',1);
 execute insertion_billet(1,15,to_date('16/11/16','DD/MM/RR'),'émis',1);
 execute insertion_billet(1,150,to_date('16/11/16','DD/MM/RR'),'émis',1);
+
+execute insertion_billet(4,20,to_date('11/12/16','DD/MM/RR'),'émis',1);
+execute insertion_billet(6,21,to_date('24/12/16','DD/MM/RR'),'émis',1);
+execute insertion_billet(2,9,to_date('16/11/16','DD/MM/RR'),'émis',1);
+
+
+execute reinit_datas;
 
 --Test gestions etats coupons - billet
 --p_flash_coupon(OCCNUM,COUPETAT)

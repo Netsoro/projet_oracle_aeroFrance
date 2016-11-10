@@ -8,7 +8,7 @@ CREATE OR REPLACE PROCEDURE genere_coupon_vole(
   --En même temps on recupère le nombre de places du vol 
   --On vérifie aussi que les occurences de vol sont bien ouvert à la reservation
 CURSOR c_occurence_vol IS
-  SELECT OCCNUM, VOLNBPLACES
+  SELECT OCCNUM, VOLNBPLACES,occ_v.VOLNUM,v.AERONUM_DEPART,v.AERONUM_ARRIVEE,const.NUMORDRE
   FROM OCCURENCE_VOL occ_v,CONSTITUER const, VOL v
   WHERE occ_v.VOLNUM = const.VOLNUM AND
         occ_v.OCCDATE = pBILLDATEDEPART+const.JOURPLUS AND
@@ -41,7 +41,13 @@ BEGIN
       vCOUPNUM := Seq_coupon_vol.nextval;
       vOCCNUM :=r_occurence_vol.OCCNUM;
       INSERT INTO COUPON_VOL(COUPNUM,OCCNUM,BILLNUM,COUPETAT) VALUES (vCOUPNUM,vOCCNUM,pBILLNUM,'réservé');
-      DBMS_OUTPUT.PUT_LINE('(OCCUNM, COUPON) ==> '  || '(' || vOCCNUM || ',' ||vCOUPNUM ||')' );
+      DBMS_OUTPUT.PUT_LINE('(OCCUNM, VOLNUM, COUPON) ==> '  || 
+      '(' || vOCCNUM ||',' || r_occurence_vol.VOLNUM ||',' ||vCOUPNUM ||')' );
+      
+      DBMS_OUTPUT.PUT_LINE('--(AERO_DEPART, VOLNUM, AERO_ARRIVE) ==> '  || 
+      '(' || r_occurence_vol.AERONUM_DEPART ||',' || r_occurence_vol.VOLNUM ||',' 
+      ||r_occurence_vol.AERONUM_ARRIVEE ||')' );
+      DBMS_OUTPUT.PUT_LINE('ORDRE == '||r_occurence_vol.NUMORDRE);
     END LOOP;
     IF not is_data_found THEN
             raise_application_error(-20012,'Il n''ya aucun vol associé au trejet à cette date, donc pas de billet !!' );
