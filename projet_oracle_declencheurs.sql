@@ -109,6 +109,7 @@ BEGIN
     ELSIF :NEW.OCCETAT  = 'derouté' THEN
       DBMS_OUTPUT.PUT_LINE('(OCCNUM,OCCETAT) ==>> ( ' || :NEW.OCCNUM || ', ' || 'derouté)' );
       p_do_coupons_to_arriver(:NEW.OCCNUM);
+      --regere_coupon_vol(:NEW.AERONUM);
     END IF;
   END;
   DBMS_OUTPUT.PUT_LINE('<<==FIN UPDATE view_occurence_vol==>>');

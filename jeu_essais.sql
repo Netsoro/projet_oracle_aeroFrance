@@ -1,3 +1,6 @@
+execute reinit_datas;
+
+SET SERVEROUTPUT ON;
 --Test des contraintes de domaines
 --Resultat attendu :
 --Erreur SQL : ORA-02290: violation de contraintes (PROJET_ORACLE_DIAROG.SYS_C0032917) de vérification
@@ -45,7 +48,6 @@ execute insertion_billet(1,150,to_date('16/09/16','DD/MM/RR'),'émis',1);
 --INSERTION de BILLET et declechement de generation de coupons de vols
 
 --insertion_billet(pTRANUM ,pCLINUM ,pBILLDATEDEPART,pBILLETAT ,NBBILLET , NBBILLLET /*de billet qu'on veut inserer*/)
-execute insertion_billet(1,8,to_date('16/11/16','DD/MM/RR'),'émis',1);
 execute insertion_billet(1,1,to_date('16/11/16','DD/MM/RR'),'émis',1);
 execute insertion_billet(1,2,to_date('16/11/16','DD/MM/RR'),'émis',1);
 execute insertion_billet(1,3,to_date('16/11/16','DD/MM/RR'),'émis',1);
